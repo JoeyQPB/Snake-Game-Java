@@ -1,16 +1,16 @@
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 import java.util.Random;
-import javax.swing.JPanel;
-import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener {
 
-	static final int SCREEN_WIDTH = 600;
-	static final int SCREEN_HEIGHT = 600;
-	static final int UNIT_SIZE = 25;
+	private static final long serialVersionUID = 1L;
+	static final int SCREEN_WIDTH = 1300;
+	static final int SCREEN_HEIGHT = 750;
+	static final int UNIT_SIZE = 50;
 	static final int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
-	static final int DELAY = 75;
+	static final int DELAY = 175;
 	final int x[] = new int[GAME_UNITS];
 	final int y[] = new int[GAME_UNITS];
 	int bodyParts = 5;
@@ -18,11 +18,12 @@ public class GamePanel extends JPanel implements ActionListener {
 	int appleX;
 	int appleY;
 	char direction = 'R';
-	boolean running = true;
+	boolean running = false;
 	Timer timer;
-	Random random = new Random();
+	Random random;
 	
 	GamePanel() {
+		random = new Random();
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.black);
 		this.setFocusable(true);
@@ -37,13 +38,12 @@ public class GamePanel extends JPanel implements ActionListener {
 		timer.start();
 	}
 	
-	public void paintComponents(Graphics g) {
-		super.paintComponents(g);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		draw(g);
 	}
 	
 	public void draw(Graphics g) {
-		
 		if (running) {
 //			for (int i = 0; i < SCREEN_HEIGHT/UNIT_SIZE; i++ ) {
 //				g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, SCREEN_HEIGHT);
@@ -59,14 +59,10 @@ public class GamePanel extends JPanel implements ActionListener {
 				} else {
 					
 					// green snake
-					//g.setColor(new Color(45,180,0));
+					g.setColor(new Color(45,180,0));
 					
-					// random snake
-					int colotRGB = random.nextInt(255);
-					g.setColor(new Color(colotRGB,colotRGB,colotRGB));
-					
-					// crazy sanke
-					//g.setColor(new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
+					// crazy snake
+//					g.setColor(new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
 					
 					g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
 				}
@@ -142,7 +138,7 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 		
 		//bottom
-		if(y[0] < SCREEN_HEIGHT) {
+		if(y[0] > SCREEN_HEIGHT) {
 			running = false;
 		}
 		
